@@ -1,23 +1,59 @@
-import logo from './logo.svg';
 import './App.css';
+import Form from'./Form';
+import {useState, useEffect} from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [token,setToken] = useState("");
+  const [elab, setElab] = useState("");
+  const [data, setData] = useState("");
+
+  function avviaLog() {
+    setElab("logIn");
+  }
+
+  function avviaSign() {
+    setElab("signIn");
+  }
+
+  async function getData(){
+
+      const response = await fetch(`http://localhost:8080/user/${token}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ }),
+      });
+      const res = await response.json();
+
+      setData("id:"+res.id+" username:"+res.username+" email:"+res.email+" token:"+res.token+" giorno registrazione:"+res.reg_date);
+      
+  }
+
+
+  return(
+    <div className='App'>
+    
+
+    {token !== "" ?
+      <span> {data} </span>
+    :
+    <>
+      {elab == "" ?
+      <>
+      <button onClick={avviaLog}>LogIn</button>
+      <button onClick={avviaSign}>signIn</button>
+    </>
+    :
+    <>
+      <Form elab={elab} setToken={setToken} token={token} setElab={setElab} getData={getData}/>
+      <button onClick={() => setElab("")}>annulla</button>
+      </>
+    }
+      </>
+    }
+     
+
+      
+      
     </div>
   );
 }
