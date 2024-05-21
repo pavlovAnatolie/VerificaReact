@@ -16,7 +16,7 @@ function App() {
   }
 
   async function getData(token){
-    
+    //non vine fatto il get
       const response = await fetch(`http://localhost:8080/user/${token}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -24,7 +24,6 @@ function App() {
       });
       const res = await response.json();
 
-///qui cè il problema
       const ciao = "id:"+ res.id +" username:"+ res.username +" email:"+ res.email +" token:"+ res.token +" giorno registrazione:"+ res.reg_date;
       setData(ciao);
 
