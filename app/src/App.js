@@ -15,17 +15,19 @@ function App() {
     setElab("signIn");
   }
 
-  async function getData(){
-
+  async function getData(token){
+    
       const response = await fetch(`http://localhost:8080/user/${token}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ }),
+        body: JSON.stringify({}),
       });
       const res = await response.json();
 
-      setData("id:"+res.id+" username:"+res.username+" email:"+res.email+" token:"+res.token+" giorno registrazione:"+res.reg_date);
-      
+///qui cè il problema
+      const ciao = "id:"+ res.id +" username:"+ res.username +" email:"+ res.email +" token:"+ res.token +" giorno registrazione:"+ res.reg_date;
+      setData(ciao);
+
   }
 
 
@@ -34,7 +36,9 @@ function App() {
     
 
     {token !== "" ?
-      <span> {data} </span>
+      <span>
+         {data}
+          </span>
     :
     <>
       {elab == "" ?

@@ -21,8 +21,10 @@ export default function Form({elab, setToken, token,setElab, getData}) {
     setToken(tok.token);
 
     if(token != ""){
-        getData();
+        getData(token);
+        setElab("");
     }
+        
 
 
   }
@@ -36,8 +38,14 @@ export default function Form({elab, setToken, token,setElab, getData}) {
       const stat = await response.json();
       setStatus(stat.status);
 
-     
+     if(stat.status){
+        setElab("");
+     }
+        
     }
+
+
+
 
     function regUsername(event) {
         setUsername(event.target.value);
@@ -51,6 +59,8 @@ export default function Form({elab, setToken, token,setElab, getData}) {
         setEmail(event.target.value);
       }
 
+
+
     return (
       <div>
         {elab !== "signIn" ? (
@@ -62,12 +72,11 @@ export default function Form({elab, setToken, token,setElab, getData}) {
             Password:
             <input type="cognome" name="cognome" onChange={regPassword} />
             <br />
+            
+             {token == "" && <span>Username o Password errata</span>}
             <button onClick={logIn}>Salva</button>
 
-            {token == "" ? <span>Username o Password errata</span>
-        :   
-            setElab("")
-            }
+           
           </>
         ) : (
           <>
@@ -82,13 +91,10 @@ export default function Form({elab, setToken, token,setElab, getData}) {
             <input type="cognome" name="cognome" onChange={regPassword} />
             <br />
 
-           
+           { !status && <span>Username o Email gia esistente</span>}
             <button onClick={signIn}>Salva</button>
 
-            {token == "" ? <span>Username o Email gia esistente</span>
-        :   
-            setElab("")
-            }
+            
           </>
         )}
       </div>
